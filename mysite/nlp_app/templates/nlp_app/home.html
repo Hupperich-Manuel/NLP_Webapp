@@ -45,12 +45,12 @@
       </div>
   
     </div>
-      <dir>
-        {% for book, img in books %}
-            <h4>{{book}}</h4>
-            <img src = {{img}}></img>
-        {% endfor %}
-      </dir>
+        <dir class="container">
+          {% for book, img in books %}
+              <h4>{{book}}</h4>
+              <img src = {{img}}></img>
+          {% endfor %}
+        </dir>
     </main>
       <script>
         $(document).ready(function(){

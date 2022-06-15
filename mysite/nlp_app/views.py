@@ -37,7 +37,7 @@ def NLPView(request):
     top_10_books = list(similarity_scores.iloc[1:12].index)
     top_10_scores = list(similarity_scores.iloc[1:12])
     for index, (i, score) in enumerate(zip(top_10_books,top_10_scores)):
-        recommended_books.append([f"Recommendation {index}: {list(books.index)[int(i)]} - similarity score of {round(score,3)}"][0])
+        recommended_books.append([f"Recommendation {index}: {list(books.index)[int(i)]}"][0])
         books_images.append(books.iloc[int(i)]['thumbnail'])
 
     display_books = zip(recommended_books, books_images)
