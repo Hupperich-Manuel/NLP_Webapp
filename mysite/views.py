@@ -1,0 +1,47 @@
+from datetime import timedelta
+from string import punctuation
+from django.urls import reverse
+from django.shortcuts import get_list_or_404, render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.utils import timezone
+import numpy as np
+import os
+import gdown
+import pandas as pd
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import render, redirect
+
+
+def IndexView(request):
+    """Return the last five published questions."""
+    if not os.path.isfile("nlp_app/data/cosine_sim.csv"):
+        url = "https://drive.google.com/uc?id=1wCf7DEHC2L8AG3NrtG5pXvoWASAgO9mb"
+        output = "nlp_app/data/cosine_sim.csv"
+        gdown.download(url, output)
+
+    name = "Harry Potter and the Philosopher Stone"
+    return render(request, 'nlp_app/home.html', {"name":name})
+
+def NLPView(request):
+    title = request.POST["query1"]
+    cosine_sim = pd.read_csv("nlp_app/data/cosine_sim.csv", index_col=0)
+    books = pd.read_csv("nlp_app/data/full_books.csv", index_col=0)
+    indices = pd.Series(books.index)
+
+    recommended_books = []
+    books_images = []
+    title = title.lower()
+    index = indices[indices == title].index[0]
+    similarity_scores = pd.Series(cosine_sim.iloc[index,:]).sort_values(ascending = False)
+    top_10_books = list(similarity_scores.iloc[1:12].index)
+    top_10_scores = list(similarity_scores.iloc[1:12])
+    for index, (i, score) in enumerate(zip(top_10_books,top_10_scores)):
+        recommended_books.append([f"Recommendation {index}: {list(books.index)[int(i)]}"][0])
+        books_images.append(books.iloc[int(i)]['thumbnail'])
+
+    display_books = zip(recommended_books, books_images)
+    all_books = list(books.index)
+
+    return render(request, 'nlp_app/home.html', {'books':display_books, 'all_books':all_books})
+
