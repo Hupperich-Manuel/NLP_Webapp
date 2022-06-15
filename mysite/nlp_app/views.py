@@ -14,7 +14,7 @@ from django.shortcuts import render, redirect
 
 def IndexView(request):
     """Return the last five published questions."""
-    name = "Harry Potter and the Philosopher Stone"
+    name = ["Manu", "Manu2"]
     return render(request, 'nlp_app/home.html', {"name":name})
 
 def NLPView(request):
@@ -37,3 +37,4 @@ def NLPView(request):
     display_books = zip(recommended_books, books_images)
 
     return render(request, 'nlp_app/home.html', {'books':display_books})
+
