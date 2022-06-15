@@ -1,18 +1,40 @@
 {% load static %}
+<!DOCTYPE html>
 <html>
     <head>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="{% static '/css/static_file.css' %}">
-
+        <style>
+          main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0 auto;
+            padding: 0 26px;
+            width: 100%;
+            height: 300% !important;
+            background: rgba(154,57,163,1);
+            background: -moz-linear-gradient(-45deg, rgba(154,57,163,1) 0%, rgba(65,103,168,1) 100%);
+            background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(154,57,163,1)), color-stop(100%, rgba(65,103,168,1)));
+            background: -webkit-linear-gradient(-45deg, rgba(154,57,163,1) 0%, rgba(65,103,168,1) 100%);
+            background: -o-linear-gradient(-45deg, rgba(154,57,163,1) 0%, rgba(65,103,168,1) 100%);
+            background: -ms-linear-gradient(-45deg, rgba(154,57,163,1) 0%, rgba(65,103,168,1) 100%);
+            background: linear-gradient(135deg, rgba(154,57,163,1) 0%, rgba(65,103,168,1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9a39a3', endColorstr='#4167a8', GradientType=1 );
+          }
+        
+        </style>
     </head>
     <body>
+      <main>
       <div class="container">
         <h1>Book Recommendation System</h1>
         <h2>Write the title of a book you like, and find similar ones</h2>
         <div class="search-box">
           <div class="search-icon"><i class="fa fa-search search-icon"></i></div>
         <form action = "{% url 'nlp_app:nlp' %}" method="post" class="search-form" id="form">
-          <input type="text" placeholder="Book name here" id="search" autocomplete="off">
+          {% csrf_token %}
+          <input type="text" name="query1" placeholder="Book name here" id="search" autocomplete="off">
         </form>
         <svg class="search-border" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" viewBox="0 0 671 111" style="enable-background:new 0 0 671 111;"
          xml:space="preserve">
@@ -29,5 +51,30 @@
             <img src = {{img}}></img>
         {% endfor %}
       </dir>
+    </main>
+      <script>
+        $(document).ready(function(){
+          $("#search").focus(function() {
+            $(".search-box").addClass("border-searching");
+            $(".search-icon").addClass("si-rotate");
+          });
+          $("#search").blur(function() {
+            $(".search-box").removeClass("border-searching");
+            $(".search-icon").removeClass("si-rotate");
+          });
+          $("#search").keyup(function() {
+              if($(this).val().length > 0) {
+                $(".go-icon").addClass("go-in");
+              }
+              else {
+                $(".go-icon").removeClass("go-in");
+              }
+          });
+          $(".go-icon").click(function(){
+            $(".search-form").submit();
+          });
+      });
+      
+      </script>
     </body>
 </html>
