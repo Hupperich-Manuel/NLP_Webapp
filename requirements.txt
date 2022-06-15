@@ -19,4 +19,3 @@ sqlparse==0.4.2
 tqdm==4.64.0
 typing-extensions==4.2.0
 urllib3==1.26.9
-gdown https://drive.google.com/uc?id=1K0TwhjmPk1WSQxYlHxwls2BajqKWn7_G

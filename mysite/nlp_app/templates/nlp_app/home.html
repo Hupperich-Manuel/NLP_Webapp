@@ -1,5 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
+
 <html>
     <head>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans" rel="stylesheet" type="text/css">
@@ -34,7 +35,11 @@
           <div class="search-icon"><i class="fa fa-search search-icon"></i></div>
         <form action = "{% url 'nlp_app:nlp' %}" method="post" class="search-form" id="form">
           {% csrf_token %}
-          <input type="text" name="query1" placeholder="Book name here" id="search" autocomplete="off">
+          <!-- <input type="text" id="search" name="query1" placeholder="Book name here" autocomplete="off"> -->
+          <input class="select-css" type="text" list="services" />
+            <datalist id="services">
+              <div id="options"></div>
+            </datalist>
         </form>
         <svg class="search-border" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" viewBox="0 0 671 111" style="enable-background:new 0 0 671 111;"
          xml:space="preserve">
@@ -43,14 +48,13 @@
           </svg>
         <div class="go-icon"><i class="fa fa-arrow-right"></i></div>
       </div>
-  
     </div>
-      <dir>
-        {% for book, img in books %}
-            <h4>{{book}}</h4>
-            <img src = {{img}}></img>
-        {% endfor %}
-      </dir>
+        <dir class="container">
+          {% for book, img in books %}
+              <h4>{{book}}</h4>
+              <img src = {{img}}></img>
+          {% endfor %}
+        </dir>
     </main>
       <script>
         $(document).ready(function(){
@@ -74,7 +78,18 @@
             $(".search-form").submit();
           });
       });
-      
+      </script>
+      <script>
+        var listServices = ["SEADM", "SECAP", "SEFPG", "SEMAN", "SEPAS", "SELIC", "SEINF", "SEGED", "SEGES", "SEEOR", "SECON", "SEFIN", "SEIMP", "SECIF", "SETCE", "SECOA", "SEAFI", "SECAC", "SECIN", "SEGEC", "SEABE", "SEBEX", "SEBFP", "SEBPP", "SEPFT", "SECAT", "SEADM (DABS)", "SEADM (DEHS)", "SEADN (DCOI)", "SEMAD", "SECCO", "SEGPT", "SEITI", "SEGTI", "SEOTI", "SESIE", "SESIF", "SEPRE"];
+
+        var option = "";
+        
+        for (let i = 0; i < listServices.length; i++)
+        {
+            option += '<option value="' + listServices[i] + '">';
+        }
+        
+        document.getElementById("options").innerHTML = option;
       </script>
     </body>
 </html>
