@@ -15,17 +15,12 @@ from django.shortcuts import render, redirect
 
 def IndexView(request):
     """Return the last five published questions."""
-<<<<<<< HEAD
-
     if not os.path.isfile("nlp_app/data/cosine_sim.csv"):
-        url = "https://drive.google.com/uc?id=1K0TwhjmPk1WSQxYlHxwls2BajqKWn7_G"
+        url = "https://drive.google.com/uc?id=1wCf7DEHC2L8AG3NrtG5pXvoWASAgO9mb"
         output = "nlp_app/data/cosine_sim.csv"
         gdown.download(url, output)
 
     name = "Harry Potter and the Philosopher Stone"
-=======
-    name = ["Manu", "Manu2"]
->>>>>>> ba620ec7a8e77c829049e709f14135093b3ec909
     return render(request, 'nlp_app/home.html', {"name":name})
 
 def NLPView(request):
