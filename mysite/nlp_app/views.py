@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.utils import timezone
 import numpy as np
 import os
+import gdown
 import pandas as pd
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -14,6 +15,12 @@ from django.shortcuts import render, redirect
 
 def IndexView(request):
     """Return the last five published questions."""
+
+    if not os.path.isfile("nlp_app/data/cosine_sim.csv"):
+        url = "https://drive.google.com/uc?id=1K0TwhjmPk1WSQxYlHxwls2BajqKWn7_G"
+        output = "nlp_app/data/cosine_sim.csv"
+        gdown.download(url, output)
+
     name = "Harry Potter and the Philosopher Stone"
     return render(request, 'nlp_app/home.html', {"name":name})
 
