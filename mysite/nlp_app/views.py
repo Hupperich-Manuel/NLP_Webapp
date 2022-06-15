@@ -41,6 +41,7 @@ def NLPView(request):
         books_images.append(books.iloc[int(i)]['thumbnail'])
 
     display_books = zip(recommended_books, books_images)
+    all_books = list(books.index)
 
-    return render(request, 'nlp_app/home.html', {'books':display_books})
+    return render(request, 'nlp_app/home.html', {'books':display_books, 'book_list':all_books})
 
