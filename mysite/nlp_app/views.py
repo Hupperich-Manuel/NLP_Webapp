@@ -15,13 +15,18 @@ from django.shortcuts import render, redirect
 
 def IndexView(request):
     """Return the last five published questions."""
+    books = pd.read_csv("nlp_app/data/full_books.csv", index_col=0)
+    all_books = []
+    for value in books.index:
+        all_books.append(value)
+
     if not os.path.isfile("nlp_app/data/cosine_sim.csv"):
         url = "https://drive.google.com/uc?id=1wCf7DEHC2L8AG3NrtG5pXvoWASAgO9mb"
         output = "nlp_app/data/cosine_sim.csv"
         gdown.download(url, output)
 
     name = "Harry Potter and the Philosopher Stone"
-    return render(request, 'nlp_app/home.html', {"name":name})
+    return render(request, 'nlp_app/home.html', {"name":name, 'book_list':all_books})
 
 def NLPView(request):
     title = request.POST["query1"]
